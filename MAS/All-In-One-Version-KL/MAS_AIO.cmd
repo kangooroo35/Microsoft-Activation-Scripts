@@ -133,21 +133,20 @@ call :dk_setvar
 
 if %winbuild% EQU 1 (
 %eline%
-echo Не удалось определить номер сборки Windows.
+echo Failed to detect Windows build number.
 echo:
 setlocal EnableDelayedExpansion
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Помощь - " %_Yellow% " %mas%troubleshoot"
+call :dk_color2 %Blue% "Help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
 if %winbuild% LSS 7600 (
 %nceline%
-echo Обнаружена неподдерживаемая версия ОС [%winbuild%].
-echo Проект поддерживается только для Windows 7/8/8.1/10/11 и их серверных версий.
+echo Unsupported OS version detected [%winbuild%].
+echo Project is supported only for Windows 7/8/8.1/10/11 and their Server equivalents.
 goto dk_done
 )
-
 
 ::========================================================================================================================================
 
@@ -213,8 +212,8 @@ goto dk_done
 %nul1% fltmc || (
 if not defined _elev %psc% "start cmd.exe -arg '/c \"!_PSarg!\"' -verb runas" && exit /b
 %eline%
-echo Для выполнения этого скрипта требуются права администратора.
-echo Щелкните правой кнопкой мыши по этому скрипту и выберите 'Запуск от имени администратора'.
+echo This script needs admin rights.
+echo Right click on this script and select 'Run as administrator'.
 goto dk_done
 )
 
@@ -285,7 +284,7 @@ if not %_unattended%==1 (
 echo [1] Get Latest MAS
 echo [0] Continue Anyway
 echo:
-call :dk_color %_Green% "Выберите опцию используя клавиатуру [1,0] :"
+call :dk_color %_Green% "Choose a menu option using your keyboard [1,0] :"
 choice /C:10 /N
 if !errorlevel!==2 rem
 if !errorlevel!==1 (start %mas% & exit /b)
@@ -349,7 +348,7 @@ echo:
 echo:
 echo:       ______________________________________________________________
 echo:
-echo:                 Методы активации:
+echo:                 Activation Methods:
 echo:
 if defined _hwidgo (
 call :dk_color3 %_White% "             [1] " %_Green% "HWID" %_White% "                - Windows"
@@ -372,20 +371,20 @@ call :dk_color3 %_White% "             [5] " %_Green% "Online KMS" %_White% "   
 ) else (
 echo:             [5] Online KMS          - Windows / Office
 )
-echo:             __________________________________________________
+echo:             __________________________________________________ 
 echo:
-echo:             [6] Проверить статус активации
-echo:             [7] Изменить версию Windows
-echo:             [8] Изменить версию Office
-echo:             __________________________________________________
+echo:             [6] Check Activation Status
+echo:             [7] Change Windows Edition
+echo:             [8] Change Office Edition
+echo:             __________________________________________________      
 echo:
-echo:             [9] Устранение неполадок
-echo:             [E] Дополнительно
-echo:             [H] Справка
-echo:             [0] Выход
+echo:             [9] Troubleshoot
+echo:             [E] Extras
+echo:             [H] Help
+echo:             [0] Exit
 echo:       ______________________________________________________________
 echo:
-call :dk_color2 %_White% "         " %_Green% "Выберите пункт меню с помощью клавиатуры [1,2,3...E,H,0] :"
+call :dk_color2 %_White% "         " %_Green% "Choose a menu option using your keyboard [1,2,3...E,H,0] :"
 choice /C:123456789EH0 /N
 set _erl=%errorlevel%
 
@@ -426,15 +425,15 @@ echo:
 echo:
 echo:           ______________________________________________________
 echo:           
-echo:                [1] Извлечь папку $OEM$
-echo:
-echo:                [2] Скачать оригинальные Windows / Office
-echo:                ____________________________________________
-echo:
-echo:                [0] Вернуться в главное меню
+echo:                [1] Extract $OEM$ Folder
+echo:                  
+echo:                [2] Download Genuine Windows / Office 
+echo:                ____________________________________________      
+echo:                                                                          
+echo:                [0] Go to Main Menu
 echo:           ______________________________________________________
 echo:
-call :dk_color2 %_White% "             " %_Green% "Выберите пункт меню, используя клавиатуру [1,2,0] :"
+call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard [1,2,0] :"
 choice /C:120 /N
 set _erl=%errorlevel%
 
@@ -470,25 +469,24 @@ echo:
 echo:
 echo:
 echo:
-echo:                     Извлечь папку $OEM$ на рабочий стол
+echo:                     Extract $OEM$ folder on the desktop           
 echo:         ____________________________________________________________
 echo:
 echo:            [1] HWID             [Windows]
 echo:            [2] Ohook            [Office]
 echo:            [3] TSforge          [Windows / ESU / Office]
 echo:            [4] KMS38            [Windows]
-echo:            [5] Онлайн KMS       [Windows / Office]
+echo:            [5] Online KMS       [Windows / Office]
 echo:
 echo:            [6] HWID    [Windows] ^+ Ohook [Office]
 echo:            [7] HWID    [Windows] ^+ Ohook [Office] ^+ TSforge [ESU]
-echo:            [8] TSforge [Windows] ^+ Онлайн KMS [Office]
+echo:            [8] TSforge [Windows] ^+ Online KMS [Office]
 echo:
 call :dk_color2 %_White% "            [R] " %_Green% "ReadMe"
-echo:            [0] Вернуться
+echo:            [0] Go Back
 echo:         ____________________________________________________________
-echo:
-call :dk_color2 %_White% "             " %_Green% "Выберите пункт меню, используя клавиатуру :"
-
+echo:  
+call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard :"
 choice /C:12345678R0 /N
 set _erl=%errorlevel%
 
@@ -2129,18 +2127,17 @@ echo:
 if defined checknames (call :dk_color %_Yellow% "                Close [!checknames!] before proceeding...")
 echo         ____________________________________________________________
 echo:
-echo                 [1] Установить активацию Office с помощью Ohook
+echo                 [1] Install Ohook Office Activation
 echo:
-echo                 [2] Удалить Ohook
+echo                 [2] Uninstall Ohook
 echo                 ____________________________________________
 echo:
-echo                 [3] Скачать Office
+echo                 [3] Download Office
 echo:
 echo                 [0] %_exitmsg%
 echo         ____________________________________________________________
-echo:
-call :dk_color2 %_White% "             " %_Green% "Выберите пункт меню, используя клавиатуру [1,2,3,0]"
-
+echo: 
+call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard [1,2,3,0]"
 choice /C:1230 /N
 set _el=!errorlevel!
 if !_el!==4  exit /b
@@ -3677,29 +3674,28 @@ echo:
 echo:
 echo        ______________________________________________________________
 echo: 
-echo               [1] Активировать - Windows
-echo               [2] Активировать - Windows [ESU]
-echo               [3] Активировать - Office  [Все]
-echo               [4] Активировать - Office  [Project/Visio]
-echo               [5] Активировать - Все
-echo               _______________________________________________
+echo               [1] Activate - Windows
+echo               [2] Activate - Windows [ESU]
+echo               [3] Activate - Office  [All]
+echo               [4] Activate - Office  [Project/Visio]
+echo               [5] Activate - All
+echo               _______________________________________________  
+echo: 
+echo                   Advanced Options:
 echo:
-echo                   Дополнительные параметры:
+echo               [A] Activate - Windows %KS% Host
+echo               [B] Activate - Office %KS% Host
+echo               [C] Activate - Windows 8/8.1 APPX Sideloading
+echo               [D] Activate - Manually Select Products
+echo               [E] Reset    - Rearm/Timers/Tamper/Lock
+echo               _______________________________________________       
 echo:
-echo               [A] Активировать - Windows %KS% Хост
-echo               [B] Активировать - Office %KS% Хост
-echo               [C] Активировать - Windows 8/8.1 APPX Сайдлоудинг
-echo               [D] Активировать - Ручной выбор продуктов
-echo               [E] Сбросить - Rearm/Таймеры/Изменения/Блокировка
-echo               _______________________________________________
-echo:
-echo               [6] Удалить активацию TSforge
-echo               [7] Скачать Office
+echo               [6] Remove TSforge Activation
+echo               [7] Download Office
 echo               [0] %_exitmsg%
 echo        ______________________________________________________________
 echo:
-call :dk_color2 %_White% "            " %_Green% "Выберите пункт меню, используя клавиатуру..."
-
+call :dk_color2 %_White% "            " %_Green% "Choose a menu option using your keyboard..."
 choice /C:12345ABCDE670 /N
 set _el=!errorlevel!
 
@@ -9620,16 +9616,15 @@ echo:
 echo:
 echo:           ______________________________________________________
 echo:
-echo                 [1] Активация KMS38
+echo                 [1] KMS38 Activation
 echo                 ____________________________________________
 echo:
-echo                 [2] Удалить защиту KM38
+echo                 [2] Remove KM38 Protection
 echo:
 echo                 [0] %_exitmsg%
 echo:           ______________________________________________________
-echo:
-call :dk_color2 %_White% "             " %_Green% "Выберите пункт меню, используя клавиатуру [1,2,0]"
-
+echo: 
+call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard [1,2,0]"
 choice /C:120 /N
 set _el=!errorlevel!
 if !_el!==3  exit /b
@@ -10428,36 +10423,35 @@ call :dk_color %_Yellow% "              Old renewal task found, run activation t
 )
 echo        ______________________________________________________________
 echo: 
-echo               [1] Активировать - Windows
-echo               [2] Активировать - Office [Все]
-echo               [3] Активировать - Office [Project/Visio]
-echo               [4] Активировать - Все
-echo               _______________________________________________
-echo:
+echo               [1] Activate - Windows
+echo               [2] Activate - Office [All]
+echo               [3] Activate - Office [Project/Visio]
+echo               [4] Activate - All
+echo               _______________________________________________  
+echo: 
 if %_norentsk%==0 (
-echo               [5] Задача обновления с активацией       [Да]
+echo               [5] Renewal Task With Activation       [Yes]
 ) else (
-call :dk_color2 %_White% "              [5] Задача обновления с активацией        " %_Yellow% "[Нет]"
+call :dk_color2 %_White% "              [5] Renewal Task With Activation        " %_Yellow% "[No]"
 )
 if %_NoEditionChange%==0 (
-echo               [6] Изменить редакцию, если необходимо           [Да]
+echo               [6] Change Edition If Needed           [Yes]
 ) else (
-call :dk_color2 %_White% "              [6] Изменить редакцию, если необходимо            " %_Yellow% "[Нет]"
+call :dk_color2 %_White% "              [6] Change Edition If Needed            " %_Yellow% "[No]"
 )
-echo               [7] Удалить Online %KS%
-echo               _______________________________________________
+echo               [7] Uninstall Online %KS%
+echo               _______________________________________________       
 echo:
 if defined _server (
-echo               [8] Установить сервер/порт %KS% [%_server%] [%_port%]
+echo               [8] Set %KS% Server/Port [%_server%] [%_port%]
 ) else (
-echo               [8] Установить сервер/порт %KS%
+echo               [8] Set %KS% Server/Port
 )
-echo               [9] Скачать Office
+echo               [9] Download Office
 echo               [0] %_exitmsg%
 echo        ______________________________________________________________
 echo:
-call :dk_color2 %_White% "       " %_Green% "Выберите пункт меню, используя клавиатуру [1,2,3,4,5,6,7,8,9,0]"
-
+call :dk_color2 %_White% "       " %_Green% "Choose a menu option using your keyboard [1,2,3,4,5,6,7,8,9,0]"
 choice /C:1234567890 /N
 set _el=!errorlevel!
 
@@ -13635,21 +13629,21 @@ echo:
 echo:
 echo:       _______________________________________________________________
 echo:                                                   
-call :dk_color2 %_White% "             [1] " %_Green% "Справка"
+call :dk_color2 %_White% "             [1] " %_Green% "Help"
 echo:             ___________________________________________________
-echo:
-echo:             [2] Восстановление Dism RestoreHealth
-echo:             [3] Проверка SFC Scannow
-echo:
-echo:             [4] Исправление WMI
-echo:             [5] Исправление лицензирования
-echo:             [6] Исправление реестра WPA
+echo:                                                                      
+echo:             [2] Dism RestoreHealth
+echo:             [3] SFC Scannow
+echo:                                                                      
+echo:             [4] Fix WMI
+echo:             [5] Fix Licensing
+echo:             [6] Fix WPA Registry
 echo:             ___________________________________________________
 echo:
 echo:             [0] %_exitmsg%
 echo:       _______________________________________________________________
-echo:
-call :dk_color2 %_White% "            " %_Green% "Выберите пункт меню с помощью клавиатуры :"
+echo:          
+call :dk_color2 %_White% "            " %_Green% "Choose a menu option using your keyboard :"
 choice /C:1234560 /N
 set _erl=%errorlevel%
 
@@ -13684,28 +13678,26 @@ for /f "delims=[] tokens=2" %%# in ('ping -n 1 %%a') do (if not "%%#"=="" set _i
 
 echo:
 if defined _int (
-echo      Проверка интернет-соединения  [Подключено]
+echo      Checking Internet Connection  [Connected]
 ) else (
-call :dk_color2 %_White% "     " %Red% "Проверка интернет-соединения  [Не подключено]"
+call :dk_color2 %_White% "     " %Red% "Checking Internet Connection  [Not connected]"
 )
 
 echo %line%
 echo:
-echo      DISM использует Центр обновления Windows для предоставления файлов,
-echo      необходимых для устранения повреждений.
-echo      Это займет 5-15 минут или больше...
+echo      DISM uses Windows Update to provide replacement files required to fix corruption.
+echo      This will take 5-15 minutes or more..
 echo %line%
 echo:
-echo      Примечания:
+echo      Notes:
 echo:
-call :dk_color2 %_White% "     - " %Gray% "Убедитесь, что интернет подключен."
-call :dk_color2 %_White% "     - " %Gray% "Убедитесь, что Центр обновления Windows работает правильно."
+call :dk_color2 %_White% "     - " %Gray% "Make sure the internet is connected."
+call :dk_color2 %_White% "     - " %Gray% "Make sure that Windows update is properly working."
 echo:
 echo %line%
 echo:
-choice /C:09 /N /M ">    [9] Продолжить [0] Назад : "
+choice /C:09 /N /M ">    [9] Continue [0] Go back : "
 if %errorlevel%==1 goto at_menu
-
 
 cls
 if not defined terminal mode 110, 30
@@ -13754,21 +13746,19 @@ title  sfc /scannow
 
 echo:
 echo %line%
+echo:    
+echo      SFC will repair missing or corrupted system files.
+echo      It is recommended you run the DISM option first before this one.
+echo      This will take 10-15 minutes or more..
 echo:
-echo      SFC восстановит отсутствующие или поврежденные системные файлы.
-echo      Рекомендуется сначала выполнить опцию DISM перед запуском этой команды.
-echo      Этот процесс займет 10-15 минут или больше...
-echo:
-echo      Если SFC не смог что-то исправить, попробуйте запустить команду еще раз,
-echo      чтобы проверить, сможет ли она исправить это при следующем запуске.
-echo      Иногда может потребоваться выполнить команду sfc /scannow трижды,
-echo      перезагружая компьютер после каждого раза, чтобы полностью устранить проблемы.
-echo:
+echo      If SFC could not fix something, then run the command again to see if it may be able 
+echo      to the next time. Sometimes it may take running the sfc /scannow command 3 times
+echo      restarting the PC after each time to completely fix everything that it's able to.
+echo:   
 echo %line%
 echo:
-choice /C:09 /N /M ">    [9] Продолжить [0] Назад : "
+choice /C:09 /N /M ">    [9] Continue [0] Go back : "
 if %errorlevel%==1 goto at_menu
-
 
 cls
 for /f %%a in ('%psc% "(Get-Date).ToString('yyyyMMdd-HHmmssfff')"') do set _time=%%a
@@ -13810,27 +13800,26 @@ title  Fix Licensing ^(ClipSVC ^+ SPP ^+ OSPP^)
 
 echo:
 echo %line%
+echo:   
+echo      Notes:
 echo:
-echo      Заметки:
+echo       - This option helps in troubleshooting activation issues.
 echo:
-echo       - Этот параметр помогает в устранении проблем с активацией.
+echo       - This option will:
+echo            - Deactivate Windows and Office, you may need to reactivate.
+echo              If Windows is activated with motherboard / OEM / Digital license
+echo              then Windows will activate itself again.
 echo:
-echo       - Этот параметр выполнит следующие действия:
-echo            - Деактивирует Windows и Office, возможно, потребуется повторная активация.
-echo              Если Windows активирована через материнскую плату / OEM / цифровую лицензию,
-echo              то система активируется автоматически.
+echo            - Clear ClipSVC, SPP and OSPP licenses.
+echo            - Fix permissions of SPP tokens folder and registries.
+echo            - Trigger the repair option for Office.
 echo:
-echo            - Очистит лицензии ClipSVC, SPP и OSPP.
-echo            - Исправит разрешения для папки токенов SPP и реестров.
-echo            - Запустит восстановление Office.
-echo:
-call :dk_color2 %_White% "      - " %Red% "Используйте этот параметр только в случае необходимости."
+call :dk_color2 %_White% "      - " %Red% "Apply this option only when it is necessary."
 echo:
 echo %line%
 echo:
-choice /C:09 /N /M ">    [9] Продолжить [0] Назад : "
+choice /C:09 /N /M ">    [9] Continue [0] Go back : "
 if %errorlevel%==1 goto at_menu
-
 
 ::========================================================================================================================================
 
@@ -14889,16 +14878,15 @@ if not defined terminal mode con cols=105 lines=32
 
 if /i "%targetedition%"=="ServerRdsh" (
 echo:
-call :dk_color %Red% "==== Примечание ===="
+call :dk_color %Red% "==== Note ===="
 echo:
-echo После того, как редакция будет изменена на "%targetedition%",
-echo система может не суметь правильно изменить редакцию позже.
+echo Once the edition is changed to "%targetedition%", 
+echo the system may not be able to properly change edition later.
 echo:
-echo [1] Продолжить несмотря на это
-echo [0] Вернуться назад
+echo [1] Continue Anyway
+echo [0] Go Back
 echo:
-call :dk_color %_Green% "Выберите пункт меню, используя клавиатуру [1,0] :"
-
+call :dk_color %_Green% "Choose a menu option using your keyboard [1,0] :"
 choice /C:10 /N
 if !errorlevel!==2 goto cedmenu2
 if !errorlevel!==1 rem
@@ -15705,25 +15693,25 @@ goto dk_done
 cls
 set fixes=
 if not defined terminal mode 76, 25
-title  Изменить редакцию Office %masver%
+title  Change Office Edition %masver%
 echo:
 echo:
 echo:
 echo:
 echo         ____________________________________________________________
 echo:
-echo                 [1] Изменить все редакции
-echo                 [2] Добавить редакцию
-echo                 [3] Удалить редакцию
+echo                 [1] Change all editions
+echo                 [2] Add edition
+echo                 [3] Remove edition
 echo:
-echo                 [4] Добавить/Удалить приложения
+echo                 [4] Add/Remove apps
 echo                 ____________________________________________
 echo:
-echo                 [5] Изменить канал обновлений Office
+echo                 [5] Change Office Update Channel
 echo                 [0] %_exitmsg%
 echo         ____________________________________________________________
-echo:
-call :dk_color2 %_White% "           " %_Green% "Выберите пункт меню, используя клавиатуру [1,2,3,4,5,0]"
+echo: 
+call :dk_color2 %_White% "           " %_Green% "Choose a menu option using your keyboard [1,2,3,4,5,0]"
 choice /C:123450 /N
 set _el=!errorlevel!
 if !_el!==6  exit /b
@@ -15756,20 +15744,19 @@ echo:
 echo:
 echo:
 echo:
-echo                 Редакции O365/Mondo имеют последние функции.
+echo                 O365/Mondo editions have the latest features.     
 echo         ____________________________________________________________
 echo:
-echo                 [1] Офисные пакеты     - Розничная версия
-echo                 [2] Офисные пакеты     - Объемная лицензия
-echo                 [3] Office SingleApps - Розничная версия
-echo                 [4] Office SingleApps - Объемная лицензия
+echo                 [1] Office Suites     - Retail
+echo                 [2] Office Suites     - Volume
+echo                 [3] Office SingleApps - Retail
+echo                 [4] Office SingleApps - Volume
 echo                 ____________________________________________
 echo:
-echo                 [0] Назад
+echo                 [0] Go Back
 echo         ____________________________________________________________
-echo:
-call :dk_color2 %_White% "            " %_Green% "Выберите пункт меню, используя клавиатуру [1,2,3,4,0]"
-
+echo: 
+call :dk_color2 %_White% "            " %_Green% "Choose a menu option using your keyboard [1,2,3,4,0]"
 choice /C:12340 /N
 set _el=!errorlevel!
 if !_el!==5  goto :oemenu
@@ -15924,7 +15911,7 @@ echo [1] Continue
 echo [0] Go Back
 %line%
 echo:
-call :dk_color %_Green% "Выберите пункт меню, используя клавиатуру"
+call :dk_color %_Green% "Choose a menu option using your keyboard:"
 choice /C:AENOPJRVWLDT10 /N
 set _el=!errorlevel!
 if !_el!==14 goto :oemenu
